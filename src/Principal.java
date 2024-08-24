@@ -16,16 +16,13 @@ public class Principal {
         ArrayList<Carrera> carreras = loadCarreras();
 
         boolean ingresar = true;
-
         while (ingresar) {
-
             int opcion = JOptionPane.showOptionDialog(null, "Seleccione operación:", "Menú", 0,
                     JOptionPane.QUESTION_MESSAGE, null, busqueda, busqueda[0]);
 
             if (opcion == JOptionPane.CLOSED_OPTION) {
                 JOptionPane.showMessageDialog(null, "Operación finalizada");
                 ingresar = false;
-
             } 
                 switch (opcion) {
                     case 0:
@@ -38,7 +35,7 @@ public class Principal {
                         }
                         else{
                             // Si encuentro un alumno le doy la posibilidad de inscribir carreras.
-                            // Convertir ArrayList a array para usar con JOptionPane
+                            // Convertir ArrayList a array de String para usar con JOptionPane
                             String[] opciones = carreras.stream()
                                             .map(Carrera::getNombreCarrera)
                                             .toArray(String[]::new);
@@ -57,18 +54,17 @@ public class Principal {
                             // Manejar la selección
                             if (seleccion != null) {
                                 JOptionPane.showMessageDialog(null, "Has agregado: " + seleccion + " a: "+ alumnos.get(indice).getNombre());
+                                // Busco la carrera seleccionada con filter de Stream
                                 Optional<Carrera> carreraSeleccionada = carreras.stream()
                                         .filter(a -> a.getNombreCarrera() == seleccion)
                                         .findFirst();
+                                // Si es encontrada agrega al alumno a la carrera
                                 if (carreraSeleccionada.isPresent()){
                                     carreraSeleccionada.get().addAlumno(alumnos.get(indice));
                                 }
                             } else {
                                 JOptionPane.showMessageDialog(null, "No has seleccionado ninguna carrera.");
                             };
-                            System.out.println("Seleccion de carrera: "+ seleccion);
-    
-                            
                         }
                         break;
                     case 1:
@@ -108,6 +104,7 @@ public class Principal {
         return busquedaBinaria(listado, a);  
     }
 
+    // Nomina de alumnos
     private static void MostrarNomina(ArrayList<Alumno> listado){
         //contatenar cadenas de texto.
         StringBuilder nomina = new StringBuilder();
@@ -132,6 +129,7 @@ public class Principal {
 
     }
 
+    // Nomina de carreras.
     private static void MostrarCarreras(ArrayList<Carrera> carreras){
         //contatenar cadenas de texto.
         StringBuilder nomina = new StringBuilder();
@@ -157,6 +155,7 @@ public class Principal {
     
     }
 
+    // Cargamos las carreras
     private static ArrayList<Carrera> loadCarreras(){
         ArrayList<Carrera> carreras = new ArrayList<>();
         carreras.add(new Carrera("Ingenieria Comercial", 1021));
@@ -166,6 +165,7 @@ public class Principal {
         return carreras;
     }    
 
+    // Cargamos los alumnos
     private static ArrayList<Alumno> loadAlumnos(){
         ArrayList<Alumno> alumnos = new ArrayList<Alumno>();
 
@@ -187,6 +187,7 @@ public class Principal {
         return alumnos;
     }
 
+    // La busqueda binaria se hace generica.
     public static <T extends Comparable<T>> int busquedaBinaria(ArrayList<T> lista, T objetivo) {
         int izquierda = 0;
         int derecha = lista.size() - 1;

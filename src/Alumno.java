@@ -1,6 +1,7 @@
 
 import java.text.DecimalFormat;
 
+// Extendemos la clase Alumno con la interfaz de Comparable y poder agregar la funcion compareTo.
 public class Alumno implements Comparable<Alumno>{
 
     static DecimalFormat df = new DecimalFormat(" #,###");
@@ -85,6 +86,7 @@ public class Alumno implements Comparable<Alumno>{
                 + "\nSEMESTRE: " + semestre;
     }
 
+    // Metodo para comparar por run.
     @Override
     public int compareTo(Alumno otroAlumno) {
         return Integer.compare(this.run, otroAlumno.run);
