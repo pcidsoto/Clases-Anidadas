@@ -12,11 +12,12 @@ public class Carrera {
     public Carrera() {
     }
 
-    public Carrera(String nombreCarrera, int codigo, Ramo ramos, Alumno alumno) {
+    public Carrera(String nombreCarrera, int codigo) {
         this.nombreCarrera = nombreCarrera;
         this.codigo = codigo;
-        this.ramos.add(ramos);
-        this.alumnos.add(alumno);
+        // Me aseguro de incializar los arrayList para poder agregar objetos.
+        this.ramos = new ArrayList<>();
+        this.alumnos = new ArrayList<>();
     }
 
     public String getNombreCarrera() {
@@ -39,16 +40,26 @@ public class Carrera {
         return ramos;
     }
 
-    public void setRamos(ArrayList<Ramo> ramos) {
-        this.ramos = ramos;
+    // cada carrera podrá tener un máximo de cuatro ramos.
+    public void addRamo(Ramo ramo) {
+        if (this.ramos.size() >= 4) {
+            throw new IllegalStateException("No se pueden agregar más de 4 ramos a la carrera.");
+        }
+        this.ramos.add(ramo);
     }
 
     public ArrayList<Alumno> getAlumnos() {
         return alumnos;
     }
 
-    public void setAlumnos(ArrayList<Alumno> alumnos) {
-        this.alumnos = alumnos;
+    public void addAlumno(Alumno alumno) {
+        this.alumnos.add(alumno);
     }
 
+    public String toString() {
+        return "\n Nombre: [" + nombreCarrera + "]"
+                + "\nCadigo: " + codigo 
+                + "\nRamos: " + ramos.toString()
+                + "\nAlumnos: " + alumnos.toString();
+    }
 }// clase carrera;

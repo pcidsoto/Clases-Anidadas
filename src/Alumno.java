@@ -1,11 +1,11 @@
 
 import java.text.DecimalFormat;
 
-public class Alumno {
+public class Alumno implements Comparable<Alumno>{
 
     static DecimalFormat df = new DecimalFormat(" #,###");
     private int numero;
-    private int run;
+    private Integer run;
     private String dv;
     private String nombre;
     private String apellido;
@@ -30,7 +30,7 @@ public class Alumno {
         return numero;
     }
 
-    public void setNumero() {
+    public void setNumero(int numero) {
         this.numero = numero;
     }
 
@@ -85,4 +85,8 @@ public class Alumno {
                 + "\nSEMESTRE: " + semestre;
     }
 
+    @Override
+    public int compareTo(Alumno otroAlumno) {
+        return Integer.compare(this.run, otroAlumno.run);
+    }
 }
