@@ -16,6 +16,7 @@ public class Profesor {
         this.nombre = nombre;
         this.apellido = apellido;
         this.especialidad = especialidad;
+        this.carrera = new ArrayList<>(); // Inicializar el ArrayList antes de usarlo
         this.carrera.add(carrera);
     }
 
@@ -49,6 +50,14 @@ public class Profesor {
 
     public void setCursos(ArrayList<Carrera> carrera) {
         this.carrera = carrera;
+    }
+
+    @Override
+    public String toString() {
+        return "\nNombre: " + nombre
+                + ", \nApellido: " + apellido
+                + ", \nEspecialidad: " + especialidad
+                + ", \nCarrera: " + carrera.toString();
     }
 
 }

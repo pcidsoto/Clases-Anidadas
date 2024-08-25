@@ -2,7 +2,7 @@
 import java.text.DecimalFormat;
 
 // Extendemos la clase Alumno con la interfaz de Comparable y poder agregar la funcion compareTo.
-public class Alumno implements Comparable<Alumno>{
+public class Alumno implements Comparable<Alumno> {
 
     static DecimalFormat df = new DecimalFormat(" #,###");
     private int numero;

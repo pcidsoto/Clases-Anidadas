@@ -58,7 +58,7 @@ public class Carrera {
 
     public String toString() {
         return "\n Nombre: [" + nombreCarrera + "]"
-                + "\nCadigo: " + codigo 
+                + "\nCadigo: " + codigo
                 + "\nRamos: " + ramos.toString()
                 + "\nAlumnos: " + alumnos.toString();
     }
