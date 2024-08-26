@@ -1,13 +1,14 @@
 
-import Exceptions.MatriculaException;
 import java.text.DecimalFormat;
+
+import Exceptions.MatriculaException;
 
 // Extendemos la clase Alumno con la interfaz de Comparable y poder agregar la funcion compareTo.
 public class Alumno implements Comparable<Alumno> {
 
     static DecimalFormat df = new DecimalFormat(" #,###");
     private int numero;
-    private Integer run;
+    private int run;
     private String dv;
     private String nombre;
     private String apellido;
@@ -86,13 +87,23 @@ public class Alumno implements Comparable<Alumno> {
         }
         this.carrera = carrera;
     }
+
+    public boolean tieneCarrera(){
+        return this.carrera != null;
+    }
+
 // Método toString
     @Override
     public String toString() {
+        String nombreCarrera = "Alumno no está matriculado";
+        if (this.carrera != null){
+            nombreCarrera = carrera.getNombreCarrera();
+        }
         return "\nNUMERO: [" + numero + "]"
                 + "\nNOMBRE: " + nombre + " " + apellido
                 + "\nRUT: " + df.format(run) + "-" + dv
-                + "\nSEMESTRE: " + semestre;
+                + "\nSEMESTRE: " + semestre
+                + "\nCARRERA:" + nombreCarrera;
     }
 
     // Metodo para comparar por run.

@@ -9,11 +9,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import Exceptions.MatriculaException;
 import Utils.Utils;
 
 public class Principal {
 
-    static String busqueda[] = {" Buscar ", " Nómina ", "Menú Carreras", " Salir "};
+    static String busqueda[] = {" Buscar ", " Menú alumnos ", "Menú Carreras", " Salir "};
     static String nominal[] = {"Carreras", "Alumnos", "Profesores"};
     static String menuCarrera[] = {"listar Carreras", "Crear Carrera", "Crear Ramo"};
     static String menuAlumnos[] = {"listar Alumnos", "Crear Alumno", "Matricular Alumno"};
@@ -34,70 +35,10 @@ public class Principal {
             }
             switch (opcion) {
                 case 0:
-                    int indice = BuscarAlumno(alumnos);
-                    // end while busqueda binaria
-                    if (indice == -1) {
-                        JOptionPane.showMessageDialog(null, "Alumno no encontrado.");
-                    } else if (indice == -2) {
-                        JOptionPane.showMessageDialog(null, "Operación cancelada.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        // Si encuentro un alumno le doy la posibilidad de inscribir carreras.
-                        // Convertir ArrayList a array de String para usar con JOptionPane
-                        String[] opciones = carreras.stream()
-                                .map(Carrera::getNombreCarrera)
-                                .toArray(String[]::new);
 
-                        // Mostrar el diálogo de opciones
-                        String seleccion = (String) JOptionPane.showInputDialog(
-                                null,
-                                "Seleccione una carrera:",
-                                "Selección de Carrera",
-                                JOptionPane.QUESTION_MESSAGE,
-                                null,
-                                opciones,
-                                opciones[0] // opción por defecto
-                        );
-
-                        // Manejar la selección
-                        if (seleccion != null) {
-                            JOptionPane.showMessageDialog(null, "Has agregado: " + seleccion + " a: " + alumnos.get(indice).getNombre());
-                            // Busco la carrera seleccionada con filter de Stream
-                            Optional<Carrera> carreraSeleccionada = carreras.stream()
-                                    .filter(a -> a.getNombreCarrera() == seleccion)
-                                    .findFirst();
-                            // Si es encontrada agrega al alumno a la carrera
-                            if (carreraSeleccionada.isPresent()) {
-                                carreraSeleccionada.get().addAlumno(alumnos.get(indice));
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(null, "No has seleccionado ninguna carrera.");
-                        };
-                    }
                     break;
-                case 1: // En este switch se muestra un menú de las diferentes nomias disponibles [carreras, Alumnos,Profesores] sin opción editar, solo visualizar
-                    boolean _nominal = true;
-                    while (_nominal) {
-                        int nominas = JOptionPane.showOptionDialog(null, "Seleccione nomina:", "Menú", 0,
-                                JOptionPane.QUESTION_MESSAGE, null, nominal, nominal[0]);
-
-                        switch (nominas) {
-                            case 0: // Mostrar nómina de carreras
-
-                                break;
-                            case 1: // Mostrar nómina de alumnos
-                                Utils.mostrarPlanilla(alumnos, "Nomina de alumnos");
-                                break;
-                            case 2:
-                                MostrarProfesores(profesores);
-                                break;
-                            case JOptionPane.CLOSED_OPTION: // Si el usuario cierra el diálogo
-                                _nominal = false;
-                                break;
-                            default:
-                                _nominal = false;
-                                break;
-                        }
-                    }
+                case 1: // menu alumnos.
+                    menuAlumnos(alumnos, carreras);
                     break;
 //*******************************************Pieza agregada sabado 2300 hrs************************************************************************************************************** */
                 case 2:
@@ -286,7 +227,6 @@ public class Principal {
                     } else {
                         JOptionPane.showMessageDialog(null, "No has seleccionado ninguna carrera.");
                     }
-                    ;
 
                     break;
                 case JOptionPane.CLOSED_OPTION: // Si el usuario cierra el diálogo
@@ -294,6 +234,87 @@ public class Principal {
                     break;
                 default:
                     _actualizar = false;
+                    break;
+            }
+        }
+    }
+
+    private static void menuAlumnos(ArrayList<Alumno> alumnos, ArrayList<Carrera> carreras) throws MatriculaException {
+        boolean _nominal = true;
+        while (_nominal) {
+            int nominas = JOptionPane.showOptionDialog(null, "Seleccione opcion:", "Menú", 0,
+                    JOptionPane.QUESTION_MESSAGE, null, menuAlumnos, menuAlumnos[0]);
+
+            switch (nominas) {
+                case 0: // Mostrar nómina de alumnos.
+                    Utils.mostrarPlanilla(alumnos, "Nomina de alumnos");
+                    break;
+                case 1: // Crear alumno
+                    Alumno newAlumno = Utils.crearFormulario(
+                            Alumno.class,
+                            new ArrayList<>(Arrays.asList("nombre", "apellido","run","dv","semestre")));
+                    if (newAlumno != null) {
+                        alumnos.add(newAlumno);
+                    }
+                    break;
+                case 2: // Matricular Alumno.
+                    int indice = BuscarAlumno(alumnos);
+                    // end while busqueda binaria
+                    if (indice == -1) {
+                        JOptionPane.showMessageDialog(null, "Alumno no encontrado.");
+                    } else if (indice == -2) {
+                        JOptionPane.showMessageDialog(null, "Operación cancelada.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        // Si encuentro un alumno le doy la posibilidad de inscribir carreras.
+                        // Convertir ArrayList a array de String para usar con JOptionPane
+                        String[] opciones = carreras.stream()
+                                .map(Carrera::getNombreCarrera)
+                                .toArray(String[]::new);
+
+                        // Mostrar el diálogo de opciones
+                        String seleccion = (String) JOptionPane.showInputDialog(
+                                null,
+                                "Seleccione una carrera:",
+                                "Selección de Carrera",
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                opciones,
+                                opciones[0] // opción por defecto
+                        );
+
+                        // Manejar la selección
+                        if (seleccion != null) {
+                            try {
+
+                                Optional<Carrera> carreraSeleccionada = carreras.stream()
+                                        .filter(a -> a.getNombreCarrera() == seleccion)
+                                        .findFirst();
+                                // Si es encontrada agrega al alumno a la carrera
+
+                                if (carreraSeleccionada.isPresent()) {
+                                    // si el alumno tiene una carrera matriculada se origina un error de matricula.
+                                    alumnos.get(indice).matricularCarrera(carreraSeleccionada.get());
+
+                                    // si no hay error de matricula, se matricula el alumno en la carrera y se suma el alumno a la carrera seleccionada.
+                                    carreraSeleccionada.get().addAlumno(alumnos.get(indice));
+                                }
+                                JOptionPane.showMessageDialog(null, "Has agregado: " + seleccion + " a: " + alumnos.get(indice).getNombre());
+                                // Busco la carrera seleccionada con filter de Stream
+                            } catch (MatriculaException e) {
+                                JOptionPane.showMessageDialog(null, "No se pudo agregar el ramo: " + e.getMessage(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No has seleccionado ninguna carrera.");
+                        };
+                    }
+                    break;
+                case JOptionPane.CLOSED_OPTION: // Si el usuario cierra el diálogo
+                    _nominal = false;
+                    break;
+                default:
+                    _nominal = false;
                     break;
             }
         }
