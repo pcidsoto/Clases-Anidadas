@@ -102,4 +102,27 @@ public class Utils {
         }
         return null;
     }
+
+    public static <T extends Comparable<T>> int busquedaBinaria(ArrayList<T> lista, T objetivo) {
+        int izquierda = 0;
+        int derecha = lista.size() - 1;
+
+        while (izquierda <= derecha) {
+            int medio = izquierda + (derecha - izquierda) / 2;
+
+            int comparacion = lista.get(medio).compareTo(objetivo);
+
+            if (comparacion == 0) {
+                return medio; // Elemento encontrado
+            }
+            if (comparacion < 0) {
+                izquierda = medio + 1; // El objetivo está en la mitad derecha
+            } else {
+                derecha = medio - 1; // El objetivo está en la mitad izquierda
+            }
+        }
+
+        return -1; // Elemento no encontrado
+    }
+
 }

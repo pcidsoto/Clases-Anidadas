@@ -2,10 +2,10 @@
 import java.util.ArrayList;
 
 public class Carrera {
-    String nombreCarrera;
-    int codigo;
-    ArrayList<Ramo> ramos;
-    ArrayList<Alumno> alumnos;
+    private String nombreCarrera;
+    private int codigo;
+    private ArrayList<Ramo> ramos;
+    private ArrayList<Alumno> alumnos;
 
     public Carrera(){
         this.ramos = new ArrayList<>();
@@ -31,6 +31,21 @@ public class Carrera {
 
     public String getNombreCarrera(){
         return this.nombreCarrera;
+    }
+
+    public boolean tieneRamo(String nombre){
+        return this.ramos
+                .stream()
+                .anyMatch(ramo -> ramo.getNombre().equals(nombre));
+    }
+
+    public Ramo buscarRamoPorNombre(String nombreRamo) {
+        for (Ramo ramo : ramos) {
+            if (ramo.getNombre().equalsIgnoreCase(nombreRamo)) {
+                return ramo;
+            }
+        }
+        return null;
     }
 
     public String toString() {

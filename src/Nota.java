@@ -11,4 +11,25 @@ class Nota {
         this.fecha = fecha;
         this.valor = valor;
     }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public byte getValor() {
+        return valor;
+    }
+
+    public void setValor(byte valor) {
+        this.valor = valor;
+    }
+
+    @Override
+    public String toString() {
+        return "Nota [fecha=" + fecha + ", valor=" + valor + "]";
+    }
 }

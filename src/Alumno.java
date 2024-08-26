@@ -92,6 +92,17 @@ public class Alumno implements Comparable<Alumno> {
         return this.carrera != null;
     }
 
+    public Carrera getCarrera(){
+        return this.carrera;
+    }
+
+    public Ramo getRamoPorNombre(String nombreRamo) {
+        if (this.carrera == null) {
+            return null;
+        }
+        return this.carrera.buscarRamoPorNombre(nombreRamo);
+    }
+
 // Método toString
     @Override
     public String toString() {
