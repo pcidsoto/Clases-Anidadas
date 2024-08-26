@@ -42,9 +42,8 @@ public class Principal {
                 ingresar = false;
             }
             switch (opcion) {
-                case 0 -> {
+                case 0 -> 
                     menuProfesor(carreras, alumnos, profesores);
-                }
                 case 1 -> // menu alumnos.
                     menuAlumnos(alumnos, carreras);
                 case 2 -> // Menú carreras
@@ -305,6 +304,7 @@ public class Principal {
 
                 }
                 case 1 -> {
+                    try {
                     // Calificar
                     // Convertir ArrayList a array de String para usar con JOptionPane
                     String[] opcionesProfesor = profesores.stream()
@@ -383,11 +383,12 @@ public class Principal {
                     );
                     LocalDateTime ahora = LocalDateTime.now();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    try {
+                    
                         alumnoSeleccionado.get().getRamoPorNombre(seleccionRamo).agregarNota(ahora.format(formatter), Byte.parseByte(notaStr));;
                     } catch (Exception e) {
                         e.printStackTrace();
                         JOptionPane.showMessageDialog(null, e.toString());
+                        break;
                     }
 
                 }
