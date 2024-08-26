@@ -354,7 +354,7 @@ public class Principal {
                     String[] opcionesAlumnos = alumnos.stream()
                             .filter(a -> a.tieneCarrera() == true)
                             .filter(a -> a.getCarrera().tieneRamo(seleccionRamo))
-                            .map(Alumno::getRun)
+                            .map(Alumno::getRunStr)
                             .toArray(String[]::new);
                     if (opcionesAlumnos.length == 0) {
                         JOptionPane.showMessageDialog(null, "No hay alumnos inscritos");

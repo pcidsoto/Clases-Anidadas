@@ -32,7 +32,9 @@ public class Ramo {
 
     @Override
     public String toString() {
-        return "Ramo [codigo=" + codigo + ", nombre=" + nombre + "]";
+        return "\n Nombre: [" + nombre + "]"
+        + "\nCodigo: " + codigo
+        + "\nNotas: " + notas.toString();
     }
 
     public int getCodigo() {

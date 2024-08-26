@@ -50,7 +50,19 @@ public class Carrera {
 
     public String toString() {
         return "\n Nombre: [" + nombreCarrera + "]"
-                + "\nCadigo: " + codigo
+                + "\nCodigo: " + codigo
                 + "\nRamos: " + ramos.toString();
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public ArrayList<Ramo> getRamos() {
+        return ramos;
+    }
+
+    public ArrayList<Alumno> getAlumnos() {
+        return alumnos;
     }
 }

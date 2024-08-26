@@ -1,5 +1,6 @@
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import Exceptions.MatriculaException;
 
@@ -41,6 +42,10 @@ public class Alumno implements Comparable<Alumno> {
 
     public int getRun() {
         return run;
+    }
+
+    public String getRunStr() {
+        return  String.valueOf(run);
     }
 
     public void setRun(int run) {
@@ -107,14 +112,18 @@ public class Alumno implements Comparable<Alumno> {
     @Override
     public String toString() {
         String nombreCarrera = "Alumno no está matriculado";
+        ArrayList<Ramo> ramos = new ArrayList<>();
         if (this.carrera != null){
             nombreCarrera = carrera.getNombreCarrera();
+            ramos = carrera.getRamos();
         }
+
         return "\nNUMERO: [" + numero + "]"
                 + "\nNOMBRE: " + nombre + " " + apellido
                 + "\nRUT: " + df.format(run) + "-" + dv
                 + "\nSEMESTRE: " + semestre
-                + "\nCARRERA:" + nombreCarrera;
+                + "\nCARRERA:" + nombreCarrera
+                + "\nRamos:" + ramos.toString();
     }
 
     // Metodo para comparar por run.
