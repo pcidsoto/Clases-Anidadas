@@ -1,4 +1,5 @@
 
+import Exceptions.MatriculaException;
 import java.text.DecimalFormat;
 
 // Extendemos la clase Alumno con la interfaz de Comparable y poder agregar la funcion compareTo.
@@ -11,9 +12,11 @@ public class Alumno implements Comparable<Alumno> {
     private String nombre;
     private String apellido;
     private int semestre;
+    private Carrera carrera;
 
 // constructor vacío.
     public Alumno() {
+        this.carrera = null;
     }
 // constructor
 
@@ -77,6 +80,12 @@ public class Alumno implements Comparable<Alumno> {
         this.semestre = semestre;
     }
 
+    public void matricularCarrera(Carrera carrera) throws MatriculaException{
+        if (this.carrera != null){
+            throw new MatriculaException("El alumno ya tiene una carrera matriculada, elevar solicitud a dirección de carrera");
+        }
+        this.carrera = carrera;
+    }
 // Método toString
     @Override
     public String toString() {

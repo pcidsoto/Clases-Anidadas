@@ -1,41 +1,34 @@
+import java.util.ArrayList;
+
+import Exceptions.LimiteExcedidoException;
+import Exceptions.ValorInvalidoException;
 
 public class Ramo {
 
-    private String nombreRamo;
-    private double[] notas = new double[3]; // maximo 3 notas
+    int codigo;
+    String nombre;
+    ArrayList<Nota> notas;
 
     public Ramo() {
-
+        this.notas = new ArrayList<>(3);
     }
 
-    public Ramo(String nombreRamo, double[] notas) {
+    Ramo(int codigo, String nombre) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.notas = new ArrayList<>(3);
+    }
 
-        this.nombreRamo = nombreRamo;
-        if (notas.length <= 3) {
-            this.notas = notas;
-        } else {
-            System.out.println("Error: Solo se permiten hasta 3 notas.");
+    void agregarNota(String fecha, byte valor) throws LimiteExcedidoException, ValorInvalidoException {
+        if (notas.size() >= 3) {
+            throw new LimiteExcedidoException("No se pueden agregar más de 3 notas por ramo");
         }
+        // Si nota no está en el rango emite un error.
+        notas.add(new Nota(fecha, valor));
     }
 
-    public String getNombreRamo() {
-        return nombreRamo;
+    @Override
+    public String toString() {
+        return "Ramo [codigo=" + codigo + ", nombre=" + nombre + "]";
     }
-
-    public void setNombreRamo(String nombreRamo) {
-        this.nombreRamo = nombreRamo;
-    }
-
-    public double[] getNotas() {
-        return notas;
-    }
-
-    public void setNotas(double[] notas) {
-        if (notas.length <= 3) {
-            this.notas = notas;
-        } else {
-            System.out.println("Error: Solo se permiten hasta 3 notas.");
-        }
-    }
-
-};
+}

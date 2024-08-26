@@ -1,23 +1,17 @@
-
-import java.util.ArrayList;
-
 public class Profesor {
 
     private String nombre;
     private String apellido;
     private String especialidad;
-    private ArrayList<Carrera> carrera;
 
 // contructor vacío
     public Profesor() {
     }
 
-    public Profesor(String nombre, String apellido, String especialidad, Carrera carrera) {
+    public Profesor(String nombre, String apellido, String especialidad) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.especialidad = especialidad;
-        this.carrera = new ArrayList<>(); // Inicializar el ArrayList antes de usarlo
-        this.carrera.add(carrera);
     }
 
     public String getNombre() {
@@ -44,20 +38,12 @@ public class Profesor {
         this.especialidad = especialidad;
     }
 
-    public ArrayList<Carrera> getCursos() {
-        return carrera;
-    }
-
-    public void setCursos(ArrayList<Carrera> carrera) {
-        this.carrera = carrera;
-    }
 
     @Override
     public String toString() {
         return "\nNombre: " + nombre
                 + ", \nApellido: " + apellido
-                + ", \nEspecialidad: " + especialidad
-                + ", \nCarrera: " + carrera.toString();
+                + ", \nEspecialidad: " + especialidad;
     }
 
 }
