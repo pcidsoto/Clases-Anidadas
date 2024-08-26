@@ -1,12 +1,16 @@
 
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Optional;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class Principal {
 
@@ -106,17 +110,43 @@ public class Principal {
 
                         switch (actualizar1) {
                             case 0:
-
-                                for (int i = 0; i < 4; i++) {
 //*******************************************************************aqui lor cid las ventanas!!*********************************************************************************************** */
-                                    String input = JOptionPane.showInputDialog(null, "Nombre Carrera:", "Nombre", JOptionPane.QUESTION_MESSAGE);
-                                    String input1 = JOptionPane.showInputDialog(null, "Codigo Carrera:", "Codigo", JOptionPane.QUESTION_MESSAGE);
-                                    int input_ = Integer.parseInt(input1);
-                                    carreras.add(new Carrera(input, input_));
+                                JPanel panel = new JPanel(new GridLayout(3, 2, 5, 5));
 
-                                }// for
+                                JTextField nameField = new JTextField(10);
+                                JTextField ramoField = new JTextField(10);
+
+                                // Agregar etiquetas y campos de texto al panel
+                                panel.add(new JLabel("Carrera:"));
+                                panel.add(nameField);
+                                panel.add(new JLabel("Ramos(separar por comas):"));
+                                panel.add(ramoField);
+
+                                int result = JOptionPane.showConfirmDialog(null, panel, "Ingrese datos", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+                                if (result == JOptionPane.OK_OPTION) {
+                                    String nombreCarrera = nameField.getText();
+                                    String ramosCarrera = ramoField.getText();
+
+                                    ArrayList<Ramo> ramos = new ArrayList<>();
+                                    if (!ramosCarrera.trim().isEmpty()) {
+                                        String[] ramosArray = ramosCarrera.split(",");
+                                        for (String ramoNombre : ramosArray) {
+                                            ramos.add(new Ramo(ramoNombre.trim(), new double[0])); // Crear el objeto Ramo y agregarlo a la lista
+                                        }
+                                    }
+                                    Carrera nuevaCarrera = new Carrera(nombreCarrera);
+                                    for (Ramo ramo : ramos) {
+                                        nuevaCarrera.addRamo(ramo);
+                                    }
+
+                                    carreras.add(nuevaCarrera);
+                                    JOptionPane.showMessageDialog(null, nuevaCarrera.toString());
+
+                                }
+
                                 break;
-                            //**************************************************************************************************************************************************************************** */                              
+//**************************************************************************************************************************************************************************** */                              
                             case 1: // Mostrar nómina de alumnos
 
                                 break;
@@ -210,15 +240,16 @@ public class Principal {
         scroll.setPreferredSize(new java.awt.Dimension(600, 600));
 
         JOptionPane.showConfirmDialog(null,
-                scroll, "Nómina de alumnos", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                scroll, "Nómina Carreras", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 
     // Cargamos las carreras
     private static ArrayList<Carrera> loadCarreras() {
         ArrayList<Carrera> carreras = new ArrayList<>();
-        /*   carreras.add(new Carrera("Ingenieria Comercial", 1021));
-        carreras.add(new Carrera("Ingenierìa Informatica", 1031));
-        carreras.add(new Carrera("Enfermerìa", 1041));*/
+        /*  carreras.add(new Carrera("Ingenieria Comercial"));
+        carreras.add(new Carrera("Ingenierìa Informatica"));
+        carreras.add(new Carrera("Enfermerìa"); */
+
         return carreras;
     }
 
@@ -272,9 +303,9 @@ public class Principal {
     private static ArrayList<Profesor> loadProfesores() {
         ArrayList<Profesor> profesores = new ArrayList<>();
 
-        profesores.add(new Profesor("Carlos", "Naranjo", "Ing. Informática", new Carrera("Ing.Comercial", 1021)));
-        profesores.add(new Profesor("Claudio", "Monares", "Tecnólogo médico", new Carrera("Enfermería", 1041)));
-        profesores.add(new Profesor("Pedro", "Arriagada", "Ing. Nuclear", new Carrera("Ing. informática", 1031)));
+        profesores.add(new Profesor("Carlos", "Naranjo", "Ing. Informática", new Carrera("Ing.Comercial")));
+        profesores.add(new Profesor("Claudio", "Monares", "Tecnólogo médico", new Carrera("Enfermería")));
+        profesores.add(new Profesor("Pedro", "Arriagada", "Ing. Nuclear", new Carrera("Ing. informática")));
         return profesores;
     }
 

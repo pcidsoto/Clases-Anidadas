@@ -3,18 +3,21 @@ import java.util.ArrayList;
 
 public class Carrera {
 
-    String nombreCarrera;
-    int codigo;
-    ArrayList<Ramo> ramos;
-    ArrayList<Alumno> alumnos;
-//constuctor vacío
+    private String nombreCarrera;
+    private ArrayList<Ramo> ramos;
+    private ArrayList<Alumno> alumnos;
 
+//constuctor vacío inicializamos los arrayslist
     public Carrera() {
+
+        this.ramos = new ArrayList<>();
+        this.alumnos = new ArrayList<>();
+
     }
 
-    public Carrera(String nombreCarrera, int codigo) {
+    public Carrera(String nombreCarrera) {
         this.nombreCarrera = nombreCarrera;
-        this.codigo = codigo;
+
         // Me aseguro de incializar los arrayList para poder agregar objetos.
         this.ramos = new ArrayList<>();
         this.alumnos = new ArrayList<>();
@@ -26,14 +29,6 @@ public class Carrera {
 
     public void setNombreCarrera(String nombreCarrera) {
         this.nombreCarrera = nombreCarrera;
-    }
-
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
     }
 
     public ArrayList<Ramo> getRamos() {
@@ -56,10 +51,30 @@ public class Carrera {
         this.alumnos.add(alumno);
     }
 
+    @Override
     public String toString() {
-        return "\n Nombre: [" + nombreCarrera + "]"
-                + "\nCadigo: " + codigo
-                + "\nRamos: " + ramos.toString()
-                + "\nAlumnos: " + alumnos.toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nCarrera: ").append(nombreCarrera)
+                .append("\nRamos: ");
+
+        if (ramos.isEmpty()) {
+            sb.append("No hay ramos asignados.");
+        } else {
+            for (Ramo ramo : ramos) {
+                sb.append("\n - ").append(ramo.toString());
+            }
+        }
+
+        sb.append("\nAlumnos: ");
+        if (alumnos.isEmpty()) {
+            sb.append("No hay alumnos inscritos.");
+        } else {
+            for (Alumno alumno : alumnos) {
+                sb.append("\n - ").append(alumno.toString());
+            }
+        }
+
+        return sb.toString();
     }
+
 }// clase carrera;
