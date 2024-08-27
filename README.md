@@ -12,6 +12,8 @@ La fecha de entrega y discusión será para el próximo 26-08-2024
 
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
 
+JAVA version JDK: 22
+
 ## Folder Structure
 
 The workspace contains two folders by default, where:
