@@ -1,6 +1,8 @@
 
 import java.util.ArrayList;
 
+import Exceptions.LimiteExcedidoException;
+
 public class Carrera {
     private String nombreCarrera;
     private int codigo;
@@ -21,7 +23,10 @@ public class Carrera {
     }
 
     // cada carrera podrá tener un máximo de cuatro ramos.
-    void addRamo(Ramo ramo) {
+    void addRamo(Ramo ramo) throws LimiteExcedidoException {
+        if (ramos.size() >= 4) {
+            throw new LimiteExcedidoException("No se pueden inscribir mas de 4 ramos");
+        }
         ramos.add(ramo);
     }
 
@@ -64,5 +69,14 @@ public class Carrera {
 
     public ArrayList<Alumno> getAlumnos() {
         return alumnos;
+    }
+
+    public void setRamos(ArrayList<Ramo> ramos){
+        this.ramos = ramos;
+    }
+
+    // Método de clonación profunda
+    public Carrera deepClone() {
+        return new Carrera(this.nombreCarrera, this.codigo);
     }
 }
