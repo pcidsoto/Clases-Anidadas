@@ -23,8 +23,9 @@ public class Carrera {
     }
 
     // cada carrera podrá tener un máximo de cuatro ramos.
-    void addRamo(Ramo ramo) throws LimiteExcedidoException {
-        if (ramos.size() >= 4) {
+    void addRamo(Ramo ramo, Alumno alumno) throws LimiteExcedidoException {
+        
+        if (ramos.size() >= 4 && alumno != null) {
             throw new LimiteExcedidoException("No se pueden inscribir mas de 4 ramos");
         }
         ramos.add(ramo);

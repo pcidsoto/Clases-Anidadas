@@ -30,7 +30,7 @@ public class Principal {
         // Registro los ramos que dicta el profesor.
         profesores.get(0).addRamo(liderazgo);
         // Registro el ramo en la carrera.
-        carreras.get(0).addRamo(liderazgo);
+        carreras.get(0).addRamo(liderazgo, null);
 
         boolean ingresar = true;
         while (ingresar) {
@@ -173,9 +173,16 @@ public class Principal {
 
                             // Si es encontrada agrega el ramo a la carrera
                             if (carreraSeleccionada.isPresent()) {
-                                carreraSeleccionada.get().addRamo(newRamo);
-                                JOptionPane.showMessageDialog(null, "Ramo agregado exitosamente.");
-                            }
+                                try {
+                                    carreraSeleccionada.get().addRamo(newRamo, null);
+                                    JOptionPane.showMessageDialog(null, "Ramo agregado exitosamente.");    
+                                } catch (Exception e) {
+                                    // TODO: handle exception
+                                    e.printStackTrace();
+                                    JOptionPane.showMessageDialog(null, e.getMessage());
+                                    break;
+                                }
+                             }
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "No has seleccionado ninguna carrera.");
@@ -308,7 +315,7 @@ public class Principal {
                                         .findFirst();
                             
                             // Alumno inscribe los ramos ramos:
-                            alumnos.get(indice).getCarrera().addRamo(ramoSeleccionada.get());
+                            alumnos.get(indice).getCarrera().addRamo(ramoSeleccionada.get(),alumnos.get(indice) );
                         }
                     }catch (Exception e) {
                         // TODO: handle exception
@@ -479,8 +486,13 @@ public class Principal {
 
                             // Si es encontrada agrega el ramo a la carrera
                             if (carreraSeleccionada.isPresent()) {
-                                carreraSeleccionada.get().addRamo(newRamo);
-                                JOptionPane.showMessageDialog(null, "Ramo agregado exitosamente.");
+                                try {
+                                    carreraSeleccionada.get().addRamo(newRamo, null);
+                                    JOptionPane.showMessageDialog(null, "Ramo agregado exitosamente.");
+                                } catch (Exception e) {
+                                    // TODO: handle exception
+                                }
+                               
                             }
                         }
                     } else {
