@@ -15,7 +15,7 @@ public class Principal {
 
     static String menuPrincipal[] = {"Menú Profesores", " Menú alumnos ", "Menú Carreras", " Salir "};
     static String menuCarrera[] = {"listar Carreras", "Crear Carrera", "Crear Ramo"};
-    static String menuAlumnos[] = {"listar Alumnos", "Crear Alumno", "Matricular Alumno"};
+    static String menuAlumnos[] = {"listar Alumnos", "Crear Alumno", "Matricular Alumno", "Inscribir ramo"};
     static String menuProfesor[] = {"mis ramos", "calificar"};
 
     public static void main(String[] args) throws Exception {
@@ -30,7 +30,7 @@ public class Principal {
         // Registro los ramos que dicta el profesor.
         profesores.get(0).addRamo(liderazgo);
         // Registro el ramo en la carrera.
-        carreras.get(0).addRamo(liderazgo);
+        carreras.get(0).addRamo(liderazgo, null);
 
         boolean ingresar = true;
         while (ingresar) {
@@ -94,19 +94,19 @@ public class Principal {
 
         alumnos.add(new Alumno(1, 16344426, "7", "Miguel Angel", "Ancapan Bobadilla", 3));
         alumnos.add(new Alumno(2, 20118888, "1", "Ignacio Alejandro", "Araya Miranda", 3));
-        // listado[2] = new Alumno(3, 18663081, "5", "Eduardo Andres", "Berrios Rojas", 3);
-        // listado[3] = new Alumno(4, 17966925, "0", "Pedro Antonio", "Cid Soto", 3);
-        // listado[4] = new Alumno(5, 17727715, "0", "Claudio Ignacio", "Garrido Arias", 3);
-        // listado[5] = new Alumno(6, 19439483, "7", "Daniel Alejandro", "Labrana Trujillo", 3);
-        // listado[6] = new Alumno(7, 17630592, "4", "Angelo Felipe", "Maldonado Maldonado", 3);
-        // listado[7] = new Alumno(8, 27144351, "k", "Veronica Lizeth", "Manchola Zúñiga", 3);
-        // listado[8] = new Alumno(9, 18478372, "k", "Lucas Alejandro", "Molina Cespedes", 3);
-        // listado[9] = new Alumno(10, 16869778, "3", "Carla Pamela", "Molina Jerez", 3);
-        // listado[10] = new Alumno(11, 19471111, "5", "Sebastián Orlando", "Osorio Palma", 3);
-        // listado[11] = new Alumno(12, 17579449, "2", "Marvyn Glen", "Palacios Gamboa", 3);
-        // listado[12] = new Alumno(13, 17325030, "4", "Javiera Alejandra", "Vergara Zuñiga", 3);
-        // listado[13] = new Alumno(14, 17824056, "0", "Carlos Ignacio", "Villareal Díaz", 3);
-        // listado[14] = new Alumno(15, 18580136, "5", "Camila Andrea", "Villarroel Riquelme", 3);
+        alumnos.add(new Alumno(3, 18663081, "5", "Eduardo Andres", "Berrios Rojas", 3));
+        alumnos.add(new Alumno(4, 17966925, "0", "Pedro Antonio", "Cid Soto", 3));
+        alumnos.add(new Alumno(5, 17727715, "0", "Claudio Ignacio", "Garrido Arias", 3));
+        alumnos.add(new Alumno(6, 19439483, "7", "Daniel Alejandro", "Labrana Trujillo", 3));
+        alumnos.add(new Alumno(7, 17630592, "4", "Angelo Felipe", "Maldonado Maldonado", 3));
+        alumnos.add(new Alumno(8, 27144351, "k", "Veronica Lizeth", "Manchola Zúñiga", 3));
+        alumnos.add(new Alumno(9, 18478372, "k", "Lucas Alejandro", "Molina Cespedes", 3));
+        alumnos.add(new Alumno(10, 16869778, "3", "Carla Pamela", "Molina Jerez", 3));
+        alumnos.add(new Alumno(11, 19471111, "5", "Sebastián Orlando", "Osorio Palma", 3));
+        alumnos.add(new Alumno(12, 17579449, "2", "Marvyn Glen", "Palacios Gamboa", 3));
+        alumnos.add(new Alumno(13, 17325030, "4", "Javiera Alejandra", "Vergara Zuñiga", 3));
+        alumnos.add(new Alumno(14, 17824056, "0", "Carlos Ignacio", "Villareal Díaz", 3));
+        alumnos.add(new Alumno(15, 18580136, "5", "Camila Andrea", "Villarroel Riquelme", 3));
         return alumnos;
     }
 
@@ -173,9 +173,16 @@ public class Principal {
 
                             // Si es encontrada agrega el ramo a la carrera
                             if (carreraSeleccionada.isPresent()) {
-                                carreraSeleccionada.get().addRamo(newRamo);
-                                JOptionPane.showMessageDialog(null, "Ramo agregado exitosamente.");
-                            }
+                                try {
+                                    carreraSeleccionada.get().addRamo(newRamo, null);
+                                    JOptionPane.showMessageDialog(null, "Ramo agregado exitosamente.");    
+                                } catch (Exception e) {
+                                    // TODO: handle exception
+                                    e.printStackTrace();
+                                    JOptionPane.showMessageDialog(null, e.getMessage());
+                                    break;
+                                }
+                             }
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "No has seleccionado ninguna carrera.");
@@ -244,7 +251,12 @@ public class Principal {
 
                                 if (carreraSeleccionada.isPresent()) {
                                     // si el alumno tiene una carrera matriculada se origina un error de matricula.
-                                    alumnos.get(indice).matricularCarrera(carreraSeleccionada.get());
+
+                                    // Copio el objeto carrera para quitar los ramos originales de la carrera y originar una carrera sin ramos en el alumno.
+                                    Carrera miCarrera = carreraSeleccionada.get().deepClone();
+                                    miCarrera.setRamos(new ArrayList<>());
+
+                                    alumnos.get(indice).matricularCarrera(miCarrera);
 
                                     // si no hay error de matricula, se matricula el alumno en la carrera y se suma el alumno a la carrera seleccionada.
                                     carreraSeleccionada.get().addAlumno(alumnos.get(indice));
@@ -252,7 +264,7 @@ public class Principal {
                                 JOptionPane.showMessageDialog(null, "Has agregado: " + seleccion + " a: " + alumnos.get(indice).getNombre());
                                 // Busco la carrera seleccionada con filter de Stream
                             } catch (MatriculaException e) {
-                                JOptionPane.showMessageDialog(null, "No se pudo agregar el ramo: " + e.getMessage(),
+                                JOptionPane.showMessageDialog(null, "No se pudo agregar la carrera: " + e.getMessage(),
                                         "Error", JOptionPane.ERROR_MESSAGE);
                             }
 
@@ -260,6 +272,57 @@ public class Principal {
                             JOptionPane.showMessageDialog(null, "No has seleccionado ninguna carrera.");
                         }
                     }
+                }
+                case 3 -> {
+                    try{
+                        // inscribir ramos
+                        int indice = BuscarAlumno(alumnos);
+
+                        if (indice == -1) {
+                            JOptionPane.showMessageDialog(null, "Alumno no encontrado.");
+                        } else if (indice == -2) {
+                            JOptionPane.showMessageDialog(null, "Operación cancelada.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            // Buscar la carrera del alumno en carreras para obtener los ramos creados.
+                            Carrera carreraAlumno = alumnos.get(indice).getCarrera();
+                            if (carreraAlumno == null){
+                                JOptionPane.showMessageDialog(null, "el alumno no tiene carrera inscrita");
+                                break;
+                            }
+
+                            Optional<Carrera> carreraSeleccionada = carreras.stream()
+                                        .filter(a -> a.getNombreCarrera().equals(carreraAlumno.getNombreCarrera()))
+                                        .findFirst();
+                                // Si es encontrada agrega al alumno a la carrera
+
+                            String[] ramosOpciones = carreraSeleccionada.get().getRamos().stream()
+                                .map(Ramo::getNombre)
+                                .toArray(String[]::new);
+                            
+
+                            // Mostrar el diálogo de opciones
+                            String seleccion = (String) JOptionPane.showInputDialog(
+                                    null,
+                                    "Seleccione una carrera:",
+                                    "Selección de Carrera",
+                                    JOptionPane.QUESTION_MESSAGE,
+                                    null,
+                                    ramosOpciones,
+                                    null // opción por defecto
+                            );
+                            Optional<Ramo> ramoSeleccionada = carreraSeleccionada.get().getRamos().stream()
+                                        .filter(a -> a.getNombre().equals(seleccion))
+                                        .findFirst();
+                            
+                            // Alumno inscribe los ramos ramos:
+                            alumnos.get(indice).getCarrera().addRamo(ramoSeleccionada.get(),alumnos.get(indice) );
+                        }
+                    }catch (Exception e) {
+                        // TODO: handle exception
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
+                    
                 }
                 case JOptionPane.CLOSED_OPTION -> // Si el usuario cierra el diálogo
                     _nominal = false;
@@ -423,8 +486,13 @@ public class Principal {
 
                             // Si es encontrada agrega el ramo a la carrera
                             if (carreraSeleccionada.isPresent()) {
-                                carreraSeleccionada.get().addRamo(newRamo);
-                                JOptionPane.showMessageDialog(null, "Ramo agregado exitosamente.");
+                                try {
+                                    carreraSeleccionada.get().addRamo(newRamo, null);
+                                    JOptionPane.showMessageDialog(null, "Ramo agregado exitosamente.");
+                                } catch (Exception e) {
+                                    // TODO: handle exception
+                                }
+                               
                             }
                         }
                     } else {
